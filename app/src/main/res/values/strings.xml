@@ -1,5 +1,19 @@
 <resources>
-    <string name="app_name">ESDGSPRO</string>
+    <string name="app_name">在庫一覧</string>
+    <string name="app_name2">商品編集</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
+    <string-array name="product_class">
+        <item>肉</item>
+        <item>魚介類</item>
+        <item>野菜</item>
+        <item>乳製品</item>
+        <item>その他</item>
+    </string-array>
+    <string name="barcode_create">バーコード</string>
+    <string name="product_register">商品登録</string>
+    <string name="edit">商品編集</string>
+    <string name="product_name">商品名</string>
+    <string name="purchase_date">購入日</string>
+    <string name="expiry_date">賞味期限</string>
 </resources>

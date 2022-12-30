@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/ESDGSPRO/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/ESDGSPRO/app/src/main/res/layout/activity_display_message.xml" value="0.21770833333333334" />
         <entry key="..\:/AndroidProjects/ESDGSPRO/app/src/main/res/layout/activity_main.xml" value="0.1" />
       </map>
