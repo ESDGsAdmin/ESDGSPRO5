@@ -17,15 +17,6 @@ class DisplayMessageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_display_message)
 
-        // Activity開始時にIntentを取得し、文字列をセットする。
-        val intent: Intent = getIntent()
-        //val message: String? = intent.getStringExtra(MainActivity().extraMessage)
-        //val id: Int = intent.getIntExtra("ingredientId", 0)
-        val id: Int = intent.getIntExtra("ingredientId", 0)
-        val barcodeId: TextView = findViewById(R.id.barcode_id)
-
-        barcodeId.setText(id.toString())
-
         // 2022.12.29 h.takeda add
         val insUpdFlg = intent.getStringExtra("INS_UPD_FLG").toString()
         var idStr: String = ""
@@ -33,13 +24,25 @@ class DisplayMessageActivity : AppCompatActivity() {
         var idNum: Int = 0
         // h.takeda add end
 
+        // Activity開始時にIntentを取得し、文字列をセットする。
+        val intent: Intent = getIntent()
+        //val message: String? = intent.getStringExtra(MainActivity().extraMessage)
+        //val id: Int = intent.getIntExtra("ingredientId", 0)
+        //val id: Int = intent.getIntExtra("ingredientId", 0)
+        idStr = intent.getStringExtra("ingredientId").toString()
+        val barcodeId: TextView = findViewById(R.id.barcode_id)
+
+        //barcodeId.setText(id.toString())
+        barcodeId.setText(idStr)
+
+
         //DB接続用
         val helper = DBHelper(this@DisplayMessageActivity)
         val db = helper.writableDatabase
         //takeda add
         //食材ID取得用
         if (insUpdFlg == "INS"){
-            val idResult = db.rawQuery("select count(*),max(ingredient_id) from esdgs;",null)
+            val idResult = db.rawQuery("select count(*),max(ingredient_id) from food_ingredient_tb;",null)
             if (idResult.count > 0 ){
                 idResult.moveToFirst()
                 var idFromTB:String = ""
@@ -63,7 +66,7 @@ class DisplayMessageActivity : AppCompatActivity() {
         //takeda add end
         //ID採番
 
-        val itemData = db.rawQuery("select * from esdgs where ingredient_id = " + id, null)
+        //val itemData = db.rawQuery("select * from food_ingredient_tb where ingredient_id = " + id, null)
 
         val image1: ImageView = findViewById(R.id.imageView)
         val productName: TextView = findViewById(R.id.product_name)
@@ -87,24 +90,47 @@ class DisplayMessageActivity : AppCompatActivity() {
             spinner.adapter = adapter
         }
 
-        itemData.use{
-            while (it.moveToNext()){
-                with(it){
-                    if (getBlob(7) != null) {
-                        image1.setImageResource(getInt(7))
+        helper.readableDatabase.use {db ->
+            //db.rawQuery("select * from food_ingredient_tb where ingredient_id = " + id, null).use {
+            db.rawQuery("select * from food_ingredient_tb where ingredient_id = '" + idStr + "';", null).use {
+                    cs ->
+                if(cs.moveToFirst()){
+                    if (cs.getBlob(7) != null) {
+                        image1.setImageResource(cs.getInt(7))
                     }
                     else{
                         image1.setImageResource(drawable.camel)
                     }
-                    productName.setText(getString(1))
+                    productName.setText(cs.getString(1))
                     println(array.product_class)
-                    spinner.setSelection(getInt(2) - 1)
-                    purchaseDateText.setText(getString(3))
-                    expiryDateText.setText(getString(4))
-                    quantity.setText(getInt(5).toString())
+                    spinner.setSelection(cs.getInt(2) - 1)
+                    purchaseDateText.setText(cs.getString(3))
+                    expiryDateText.setText(cs.getString(4))
+                    quantity.setText(cs.getInt(5).toString())
+
                 }
             }
+
         }
+
+        //itemData.use{
+        //    while (it.moveToNext()){
+        //        with(it){
+        //            if (getBlob(7) != null) {
+        //                image1.setImageResource(getInt(7))
+        //            }
+        //            else{
+        //                image1.setImageResource(drawable.camel)
+        //            }
+        //            productName.setText(getString(1))
+        //            println(array.product_class)
+        //            spinner.setSelection(getInt(2) - 1)
+        //            purchaseDateText.setText(getString(3))
+        //            expiryDateText.setText(getString(4))
+        //            quantity.setText(getInt(5).toString())
+        //        }
+        //    }
+        //}
 
 
 
@@ -139,7 +165,7 @@ class DisplayMessageActivity : AppCompatActivity() {
                     put("quantity",quantity.text.toString())
                     put("state",0)
                 }
-                db.insert("esdgs",null,cv)
+                db.insert("food_ingredient_tb",null,cv)
             }
             Toast.makeText(
                 this,"データの登録が完了しました",
@@ -206,7 +232,7 @@ class DisplayMessageActivity : AppCompatActivity() {
     fun updateData(view: View) {
         val helper = DBHelper(this@DisplayMessageActivity)
         val db = helper.writableDatabase
-        val sqlUpdate = "update esdgs set ingredient_name = '', product_class = 0, purchase_date = '2022-12-12', expiry_date = '2022-12-12', quantity = 1, state = 0, modified = '2022-12-12', modifier = 'shimizu'"
+        val sqlUpdate = "update food_ingredient_tb set ingredient_name = '', product_class = 0, purchase_date = '2022-12-12', expiry_date = '2022-12-12', quantity = 1, state = 0, modified = '2022-12-12', modifier = 'shimizu'"
         val updateData = db.compileStatement(sqlUpdate)
         updateData.executeUpdateDelete()
     }

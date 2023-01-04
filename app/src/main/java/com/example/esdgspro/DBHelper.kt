@@ -12,7 +12,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DBNAME, null, versio
 
     override fun onCreate(database: SQLiteDatabase?) {
         val sb = StringBuilder()
-        sb.append("CREATE TABLE esdgs (ingredient_id varchar(14) primary key, ingredient_name varchar(100), product_class int, purchase_date date, expiry_date date, quantity int, state int, image blob, reg_date date, reg_user varchar(20), upd_date date, upd_user varchar(20));")
+        sb.append("CREATE TABLE food_ingredient_tb (ingredient_id varchar(14) primary key, ingredient_name varchar(100), product_class int, purchase_date date, expiry_date date, quantity int, state int, image blob, reg_date date, reg_user varchar(20), upd_date date, upd_user varchar(20));")
         val sql = sb.toString()
         database?.execSQL(sql)
         println(sql)

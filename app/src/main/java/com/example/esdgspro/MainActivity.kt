@@ -24,10 +24,10 @@ class MainActivity : AppCompatActivity() {
         val helper = DBHelper(this@MainActivity)
         val db = helper.writableDatabase
         println(db)
-        //val sqlInsert = "INSERT INTO esdgs (ingredient_id, ingredient_name, product_class, purchase_date, expiry_date, quantity, state, image, registered, register, modified, modifier) VALUES (1, '肉', 1, '2022-12-21', '2022-12-24', 1, 0, NULL, '2022-12-21', 'shimizu', '2022-12-21', 'shimizu');"
+        //val sqlInsert = "INSERT INTO food_ingredient_tb (ingredient_id, ingredient_name, product_class, purchase_date, expiry_date, quantity, state, image, registered, register, modified, modifier) VALUES (1, '肉', 1, '2022-12-21', '2022-12-24', 1, 0, NULL, '2022-12-21', 'shimizu', '2022-12-21', 'shimizu');"
         //val stmt = db.compileStatement(sqlInsert)
         //stmt.executeInsert()
-        val test = db.rawQuery("select * from esdgs", null)
+        val test = db.rawQuery("select * from food_ingredient_tb", null)
         println(test.count)
         val data: MutableList<Map<String, Serializable>> = mutableListOf()
         //val map = mapOf<String, Int>()
@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity() {
                     if (getInt(6) == 1){
                         consumeCheck = "消費済"
                     }
-                    data.add(mapOf("id" to getInt(0), "image" to getBlob(7), "name" to getString(1), "consume_flag" to consumeCheck, "classification" to getString(2), "expiry" to getString(4), "quantity" to getInt(5)))
+                    //data.add(mapOf("id" to getInt(0), "image" to getBlob(7), "name" to getString(1), "consume_flag" to consumeCheck, "classification" to getString(2), "expiry" to getString(4), "quantity" to getInt(5)))
+                    data.add(mapOf("id" to getString(0), "image" to getBlob(7), "name" to getString(1), "consume_flag" to consumeCheck, "classification" to getString(2), "expiry" to getString(4), "quantity" to getInt(5)))
                 }
             }
         }
@@ -70,7 +71,8 @@ class MainActivity : AppCompatActivity() {
             val intent: Intent = Intent(this@MainActivity,
                 DisplayMessageActivity::class.java)
             //val editText: EditText = findViewById(R.id.editText) as EditText
-            val barcodeId: Int = data[position]["id"] as Int
+            //val barcodeId: Int = data[position]["id"] as Int
+            val barcodeId: String = data[position]["id"] as String
             //val message: String = data[position]["name"] as String
             //intent.putExtra(extraMessage, message)
             intent.putExtra("ingredientId", barcodeId)
