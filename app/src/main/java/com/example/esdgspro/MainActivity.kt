@@ -16,20 +16,19 @@ import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
     //val extraMessage:String = "com.example.sample.MESSAGE"
+    var data: MutableList<Map<String, Serializable>> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //DB接続用
+        /*//DB接続用
         val helper = DBHelper(this@MainActivity)
         val db = helper.writableDatabase
         println(db)
-        //val sqlInsert = "INSERT INTO food_ingredient_tb (ingredient_id, ingredient_name, product_class, purchase_date, expiry_date, quantity, state, image, registered, register, modified, modifier) VALUES (1, '肉', 1, '2022-12-21', '2022-12-24', 1, 0, NULL, '2022-12-21', 'shimizu', '2022-12-21', 'shimizu');"
-        //val stmt = db.compileStatement(sqlInsert)
-        //stmt.executeInsert()
-        val test = db.rawQuery("select * from food_ingredient_tb", null)
+
+        val test = db.rawQuery("select * from esdgs", null)
         println(test.count)
-        val data: MutableList<Map<String, Serializable>> = mutableListOf()
+
         //val map = mapOf<String, Int>()
         test.use{
             while (it.moveToNext()){
@@ -38,22 +37,36 @@ class MainActivity : AppCompatActivity() {
                     if (getInt(6) == 1){
                         consumeCheck = "消費済"
                     }
-                    //data.add(mapOf("id" to getInt(0), "image" to getBlob(7), "name" to getString(1), "consume_flag" to consumeCheck, "classification" to getString(2), "expiry" to getString(4), "quantity" to getInt(5)))
+                    data.add(mapOf("id" to getInt(0), "image" to getBlob(7), "name" to getString(1), "consume_flag" to consumeCheck, "classification" to getString(2), "expiry" to getString(4), "quantity" to getInt(5)))
+                }
+            }
+        }*/
+
+    }
+
+    override fun onResume(){
+        super.onResume()
+
+        //DB接続用
+        val helper = DBHelper(this@MainActivity)
+        val db = helper.writableDatabase
+        println(db)
+
+        val test = db.rawQuery("select * from food_ingredient_tb", null)
+        println(test.count)
+        data = mutableListOf()
+        //val map = mapOf<String, Int>()
+        test.use{
+            while (it.moveToNext()){
+                with(it){
+                    var consumeCheck: String = ""
+                    if (getInt(6) == 1){
+                        consumeCheck = "消費済"
+                    }
                     data.add(mapOf("id" to getString(0), "image" to getBlob(7), "name" to getString(1), "consume_flag" to consumeCheck, "classification" to getString(2), "expiry" to getString(4), "quantity" to getInt(5)))
                 }
             }
         }
-
-        /*val data = listOf(
-            mapOf ("image" to R.drawable.camel, "name" to "北海道", "consume_flag" to "", "classification" to "都道府県", "detail" to "2022/09/05", "quantity" to 1),
-            mapOf ("image" to R.drawable.goat, "name" to "宮城", "consume_flag" to "", "classification" to "都道府県", "detail" to "2022/10/12", "quantity" to 2),
-            mapOf ("image" to R.drawable.gorilla, "name" to "東京", "consume_flag" to "", "classification" to "都道府県", "detail" to "2022/09/23", "quantity" to 1),
-            mapOf ("image" to R.drawable.panda, "name" to "愛知", "consume_flag" to "消費済", "classification" to "都道府県", "detail" to "2022/10/29", "quantity" to 0),
-            mapOf ("image" to R.drawable.camel, "name" to "大阪", "consume_flag" to "", "classification" to "都道府県", "detail" to "2022/11/01", "quantity" to 1),
-            mapOf ("image" to R.drawable.goat, "name" to "広島", "consume_flag" to "消費済", "classification" to "都道府県", "detail" to "2022/10/17", "quantity" to 0),
-            mapOf ("image" to R.drawable.gorilla, "name" to "福岡", "consume_flag" to "", "classification" to "都道府県", "detail" to "2022/11/02", "quantity" to 2),
-            mapOf ("image" to R.drawable.panda, "name" to "沖縄", "consume_flag" to "", "classification" to "都道府県", "detail" to "2022/10/09", "quantity" to 1),
-        )*/
 
         val list = findViewById<ListView>(R.id.list)
         list.adapter = SimpleAdapter(
@@ -69,10 +82,9 @@ class MainActivity : AppCompatActivity() {
             /*val message = "「${(data[position])}」をクリックしました。"
             Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()*/
             val intent: Intent = Intent(this@MainActivity,
-                DisplayMessageActivity::class.java)
+                EditProductActivity::class.java)
             //val editText: EditText = findViewById(R.id.editText) as EditText
-            //val barcodeId: Int = data[position]["id"] as Int
-            val barcodeId: String = data[position]["id"] as String
+            val barcodeId = data[position]["id"]
             //val message: String = data[position]["name"] as String
             //intent.putExtra(extraMessage, message)
             intent.putExtra("ingredientId", barcodeId)
@@ -81,15 +93,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     /* Sendボタン押下時 */
-    fun sendMessage(view: View) {
+    fun createProduct(view: View) {
         val intent: Intent = Intent(this@MainActivity,
-            DisplayMessageActivity::class.java)
+            CreateProductActivity::class.java)
         /*val editText: EditText = findViewById(R.id.editText) as EditText
         val message: String = editText.text.toString()
         intent.putExtra(EXTRA_MESSAGE, message)*/
-        //2022.12.29 h.takeda add
-        intent.putExtra("INS_UPD_FLG","INS")
-        //takeda add end
         startActivity(intent)
     }
 }

@@ -28,4 +28,5 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DBNAME, null, versio
         //val test = database?.execSQL("update esdgs set ingredient_name = 'ブリ', product_class = '魚', purchase_date = '2022-12-21', expiry_date = '2022-12-23', quantity = 1, state = 0, image = null, registed = '2022-12-21', register = 'shimizu', modified = '2022-12-21', modifier = 'shimizu' where ingredient_id = 2")
         //println(test)
     }
+
 }

@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="sendMessage"
+            android:onClick="createProduct"
             android:text="@string/product_register" />
         <Button
             android:layout_width="match_parent"
