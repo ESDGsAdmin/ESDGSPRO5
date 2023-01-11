@@ -17,4 +17,12 @@
     <string name="purchase_date">購入日</string>
     <string name="expiry_date">賞味期限</string>
     <string name="app_name3">商品登録</string>
+
+    <string name="dialog_title">確認</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_del_message">削除します。よろしいですか？</string>
+    <string name="dialog_upd_message">更新します。よろしいですか？</string>
+    <string name="dialog_ins_message">登録します。よろしいですか？</string>
+
 </resources>

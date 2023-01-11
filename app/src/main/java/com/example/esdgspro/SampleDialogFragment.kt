@@ -13,7 +13,7 @@ class SampleDialogFragment : DialogFragment() {
         //builder.setIcon(R.mipmap.ic_launcher)
         builder.setMessage("データを削除しても良いですか？")
         builder.setPositiveButton("はい") { dialog, id ->
-            //OK
+
         }
         builder.setNegativeButton("いいえ") { dialog, id ->
             //Cancel

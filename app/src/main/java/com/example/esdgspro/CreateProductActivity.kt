@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import java.time.LocalDateTime
 
 class CreateProductActivity : AppCompatActivity() {
@@ -148,31 +149,49 @@ class CreateProductActivity : AppCompatActivity() {
         return sum.toString()
     }
 
-    /* 保存ボタン押下時（データ登録） */
+    /* 保存ボタン押下（データ登録）時 */
     fun createData(view: View) {
-        val helper = DBHelper(this@CreateProductActivity)
-        val db = helper.writableDatabase
-        //println(spinner.selectedItem)
-        //println(spinner.selectedItemPosition + 1)
-        println(barcodeId.getText())
-        val status: Int
-        val user: String = "shimizu"
-        if (quantity.getText().toString().toInt() > 0){
-            status = 0
-            println("未消費")
-            println(status)
-        }
-        else{
-            status = 1
-            println("消費済")
-            println(status)
-        }
-        val dataArray = arrayOf(barcodeId.getText(), textView.getText(), spinner.selectedItemPosition + 1, purchaseDateText.getText(), expiryDateText.getText(), quantity.getText().toString().toInt(), status, user)
-        val sqlInsert = "INSERT INTO food_ingredient_tb (ingredient_id, ingredient_name, product_class, purchase_date, expiry_date, quantity, state, image, reg_date, reg_user, upd_date, upd_user) VALUES ('${dataArray[0]}', '${dataArray[1]}', ${dataArray[2]}, '${dataArray[3]}', '${dataArray[4]}', ${dataArray[5]}, ${dataArray[6]}, NULL, CURRENT_DATE, '${dataArray[7]}', CURRENT_DATE, '${dataArray[7]}');"
-        println(sqlInsert)
-        val insertData = db.compileStatement(sqlInsert)
-        insertData.executeInsert()
-        finish()
+        AlertDialog.Builder(this)
+            .setTitle(R.string.dialog_title)
+            .setMessage(R.string.dialog_ins_message)
+            .setPositiveButton(R.string.dialog_ok) { dialog, which ->
+
+                val helper = DBHelper(this@CreateProductActivity)
+                val db = helper.writableDatabase
+                //println(spinner.selectedItem)
+                //println(spinner.selectedItemPosition + 1)
+                println(barcodeId.getText())
+                val status: Int
+                val user: String = "shimizu"
+                if (quantity.getText().toString().toInt() > 0){
+                    status = 0
+                    println("未消費")
+                    println(status)
+                }
+                else{
+                    status = 1
+                    println("消費済")
+                    println(status)
+                }
+                val dataArray = arrayOf(barcodeId.getText(), textView.getText(), spinner.selectedItemPosition + 1, purchaseDateText.getText(), expiryDateText.getText(), quantity.getText().toString().toInt(), status, user)
+                val sqlInsert = "INSERT INTO food_ingredient_tb (ingredient_id, ingredient_name, product_class, purchase_date, expiry_date, quantity, state, image, reg_date, reg_user, upd_date, upd_user) VALUES ('${dataArray[0]}', '${dataArray[1]}', ${dataArray[2]}, '${dataArray[3]}', '${dataArray[4]}', ${dataArray[5]}, ${dataArray[6]}, NULL, CURRENT_DATE, '${dataArray[7]}', CURRENT_DATE, '${dataArray[7]}');"
+                println(sqlInsert)
+                val insertData = db.compileStatement(sqlInsert)
+                insertData.executeInsert()
+                finish()
+
+                //メニューに戻る
+                val intent: Intent = Intent(this@CreateProductActivity,
+                    MainActivity::class.java)
+                startActivity(intent)
+
+            }
+            // Cancelの時は何もしない
+            .setNegativeButton(R.string.dialog_cancel) { dialog, which ->
+
+            }
+            .show()
+
     }
 }
 

@@ -21,7 +21,7 @@
     <EditText
         android:id="@+id/textView"
         android:layout_width="180dp"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:gravity="center"
         android:hint="@string/product_name"
         android:inputType="text"

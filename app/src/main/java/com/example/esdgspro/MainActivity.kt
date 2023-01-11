@@ -101,4 +101,8 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(EXTRA_MESSAGE, message)*/
         startActivity(intent)
     }
+
+    fun action_delete(view: View){
+
+    }
 }
