@@ -37,7 +37,7 @@ class CreateProductActivity : AppCompatActivity() {
         val selectId = db.rawQuery("select * from food_ingredient_tb", null)
 
         image1 = findViewById(R.id.imageView)
-        textView = findViewById(R.id.textView)
+        textView = findViewById(R.id.productName)
         spinner = findViewById(R.id.spinner)
         purchaseDateText = findViewById(R.id.purchaseDate)
         expiryDateText = findViewById(R.id.expiryDate)

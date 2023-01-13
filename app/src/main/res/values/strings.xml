@@ -14,6 +14,8 @@
     <string name="product_register">商品登録</string>
     <string name="edit">商品編集</string>
     <string name="product_name">商品名</string>
+    <string name="product_class">商品分類</string>
+    <string name="product_qty">数量</string>
     <string name="purchase_date">購入日</string>
     <string name="expiry_date">賞味期限</string>
     <string name="app_name3">商品登録</string>
