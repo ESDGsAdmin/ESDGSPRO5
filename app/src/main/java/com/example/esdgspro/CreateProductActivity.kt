@@ -1,13 +1,17 @@
 package com.example.esdgspro
 
 import android.app.DatePickerDialog
+import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import java.io.ByteArrayOutputStream
 import java.time.LocalDateTime
 
 class CreateProductActivity : AppCompatActivity() {
@@ -30,6 +34,8 @@ class CreateProductActivity : AppCompatActivity() {
         //val intent: Intent = getIntent()
         //val message: String? = intent.getStringExtra(MainActivity().extraMessage)
         //val id: Int = intent.getIntExtra("ingredientId", 0)
+
+        var selectProImg = SdgsCommonLogic()
 
         //DB接続用
         val helper = DBHelper(this@CreateProductActivity)
@@ -76,7 +82,23 @@ class CreateProductActivity : AppCompatActivity() {
                 }
             }
         }*/
+        /*「商品分類」選択時*/
+        spinner.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ){
+                    var curSpnVal = (parent as Spinner).selectedItemPosition + 1
 
+                    //selectProImg.curSpn = curSpnVal
+                    image1.setImageResource(selectProImg.selectProductImage(curSpnVal))
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                        //
+                }
+        }
 
 
         purchaseDateText.setOnClickListener {
@@ -162,7 +184,7 @@ class CreateProductActivity : AppCompatActivity() {
                 //println(spinner.selectedItemPosition + 1)
                 println(barcodeId.getText())
                 val status: Int
-                val user: String = "shimizu"
+                val user: String = "Insert"
                 if (quantity.getText().toString().toInt() > 0){
                     status = 0
                     println("未消費")
@@ -173,12 +195,44 @@ class CreateProductActivity : AppCompatActivity() {
                     println("消費済")
                     println(status)
                 }
-                val dataArray = arrayOf(barcodeId.getText(), textView.getText(), spinner.selectedItemPosition + 1, purchaseDateText.getText(), expiryDateText.getText(), quantity.getText().toString().toInt(), status, user)
-                val sqlInsert = "INSERT INTO food_ingredient_tb (ingredient_id, ingredient_name, product_class, purchase_date, expiry_date, quantity, state, image, reg_date, reg_user, upd_date, upd_user) VALUES ('${dataArray[0]}', '${dataArray[1]}', ${dataArray[2]}, '${dataArray[3]}', '${dataArray[4]}', ${dataArray[5]}, ${dataArray[6]}, NULL, CURRENT_DATE, '${dataArray[7]}', CURRENT_DATE, '${dataArray[7]}');"
-                println(sqlInsert)
-                val insertData = db.compileStatement(sqlInsert)
-                insertData.executeInsert()
+
+                /*画像ファイルをBlobに変換*/
+                val bitmapDrawable = image1.drawable as BitmapDrawable
+                val bitmapDrawablex = bitmapDrawable.bitmap
+                val byteArrayOutputStream = ByteArrayOutputStream();
+
+                bitmapDrawablex.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                val bytes = byteArrayOutputStream.toByteArray()
+
+                try {
+
+                    val values = ContentValues()
+                    values.put("ingredient_id", barcodeId.getText().toString())
+                    values.put("ingredient_name", textView.getText().toString())
+                    values.put("product_class", spinner.selectedItemPosition + 1)
+                    values.put("purchase_date", purchaseDateText.getText().toString())
+                    values.put("expiry_date", expiryDateText.getText().toString())
+                    values.put("quantity", quantity.getText().toString().toInt())
+                    values.put("state", status)
+                    values.put("image", bytes)
+                    values.put("reg_user", user)
+                    values.put("reg_date",LocalDateTime.now().toString())
+                    values.put("upd_user", user)
+                    values.put("upd_date",LocalDateTime.now().toString())
+
+                    db.insertOrThrow("food_ingredient_tb", null, values)
+                }catch(exception: Exception) {
+                    Log.e("insertData", exception.toString())
+                }
+
+
+
+
                 finish()
+
+                //登録完了メッセージ表示
+                val toast = Toast.makeText(this@CreateProductActivity,R.string.cmp_ins_message,Toast.LENGTH_LONG)
+                toast.show()
 
                 //メニューに戻る
                 val intent: Intent = Intent(this@CreateProductActivity,

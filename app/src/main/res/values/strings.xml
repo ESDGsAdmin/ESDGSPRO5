@@ -4,10 +4,17 @@
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
     <string-array name="product_class">
-        <item>肉</item>
+        <item>穀類</item>
+        <item>豆(種実)類</item>
+        <item>野菜類</item>
+        <item>果実類</item>
+        <item>きのこ類</item>
         <item>魚介類</item>
-        <item>野菜</item>
-        <item>乳製品</item>
+        <item>肉類</item>
+        <item>たまご類</item>
+        <item>乳類</item>
+        <item>嗜好飲料</item>
+        <item>調味料</item>
         <item>その他</item>
     </string-array>
     <string name="barcode_create">バーコード</string>
@@ -26,5 +33,8 @@
     <string name="dialog_del_message">削除します。よろしいですか？</string>
     <string name="dialog_upd_message">更新します。よろしいですか？</string>
     <string name="dialog_ins_message">登録します。よろしいですか？</string>
+    <string name="cmp_del_message">削除が完了しました。</string>
+    <string name="cmp_upd_message">更新が完了しました。</string>
+    <string name="cmp_ins_message">登録が完了しました。</string>
 
 </resources>
