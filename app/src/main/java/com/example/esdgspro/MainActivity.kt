@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         val db = helper.writableDatabase
         println(db)
 
+        var setProductClass = SdgsCommonLogic()
         val resultFood = db.rawQuery(
             "select ingredient_id,ingredient_name," +
                     "product_class,purchase_date," +
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         resultFood.use{
             while (it.moveToNext()){
                 with(it){
-                    var consumeCheck: String = ""
+                    var consumeCheck: String = "　　　"
                     if (getInt(6) == 1){
                         consumeCheck = "消費済"
                     }
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                     }
 */
 
-                    data.add(mapOf("id" to getString(0), "image" to "test", "name" to getString(1), "consume_flag" to consumeCheck, "classification" to getString(2), "expiry" to getString(4), "quantity" to getInt(5)))
+                    data.add(mapOf("id" to getString(0), "image" to getBlob(7), "name" to getString(1), "consume_flag" to consumeCheck, "classification" to setProductClass.setProductClass(getString(2).toInt()), "expiry" to getString(4), "quantity" to getInt(5)))
                 }
             }
         }

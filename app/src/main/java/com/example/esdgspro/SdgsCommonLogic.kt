@@ -52,4 +52,50 @@ class SdgsCommonLogic()  {
         return spnNum
     }
 
+    fun setProductClass(number:Int): String {
+
+        var productClass:String = ""
+
+        when (number) {
+            1 -> {
+                productClass = "穀類"
+            }
+            2 -> {
+                productClass = "豆(種実)類"
+            }
+            3 -> {
+                productClass = "野菜類"
+            }
+            4 -> {
+                productClass = "果実類"
+            }
+            5 -> {
+                productClass = "きのこ類"
+            }
+            6 -> {
+                productClass = "魚介類"
+            }
+            7 -> {
+                productClass = "肉類"
+            }
+            8 -> {
+                productClass = "卵類"
+            }
+            9 -> {
+                productClass = "乳類"
+            }
+            10 -> {
+                productClass = "嗜好飲料"
+            }
+            11 -> {
+                productClass = "調味料"
+            }
+            12 -> {
+                productClass =  "その他"
+            }
+        }
+
+        return productClass
+    }
+
 }
