@@ -147,7 +147,7 @@ class CreateProductActivity : AppCompatActivity() {
             this,
             DatePickerDialog.OnDateSetListener() {view, year, month, dayOfMonth->
                 //val text: TextView = findViewById(R.id.purchaseDate)
-                getTextValue.setText("${year}-" + (month + 1).toString().padStart(2, '0') + "-" + dayOfMonth.toString().padStart(2, '0'))
+                getTextValue.setText("${year}/" + (month + 1).toString().padStart(2, '0') + "/" + dayOfMonth.toString().padStart(2, '0'))
             },
             setYear,
             setMonth - 1,
