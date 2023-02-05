@@ -21,14 +21,12 @@
     <EditText
         android:id="@+id/productName"
         android:layout_width="160dp"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="70dp"
         android:gravity="center"
-        android:hint="@string/product_name"
         android:inputType="text"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,16 +37,16 @@
         android:layout_marginStart="20dp"
         android:labelFor="@id/productName"
         android:text="@string/product_name"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/productName"
         app:layout_constraintStart_toEndOf="@+id/imageView" />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="170dp"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/productName" />
 
@@ -59,18 +57,18 @@
         android:layout_marginStart="20dp"
         android:labelFor="@id/spinner"
         android:text="@string/product_class"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/spinner"
         app:layout_constraintStart_toEndOf="@+id/imageView" />
 
     <EditText
         android:id="@+id/purchaseDate"
         android:layout_width="160dp"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
         android:focusable="false"
         android:gravity="center"
-        android:hint="@string/purchase_date"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -82,18 +80,18 @@
         android:layout_marginStart="10dp"
         android:labelFor="@id/purchaseDate"
         android:text="@string/purchase_date"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/purchaseDate"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/expiryDate"
         android:layout_width="160dp"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="36dp"
         android:focusable="false"
         android:gravity="center"
-        android:hint="@string/expiry_date"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/purchaseDate" />
@@ -105,18 +103,18 @@
         android:layout_marginStart="10dp"
         android:labelFor="@id/expiryDate"
         android:text="@string/expiry_date"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/expiryDate"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/minus"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
         android:clickable="true"
         android:focusableInTouchMode="false"
-        android:minWidth="48dp"
         android:text="−"
         android:textAlignment="center"
         android:textColor="#0017B0"
@@ -128,18 +126,16 @@
     <TextView
         android:id="@+id/plus"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="40dp"
         android:clickable="true"
         android:focusableInTouchMode="false"
-        android:minWidth="48dp"
         android:text="+"
         android:textAlignment="center"
         android:textColor="@color/design_default_color_error"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/product_qty"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -162,17 +158,18 @@
         android:layout_marginStart="20dp"
         android:labelFor="@id/purchaseDate"
         android:text="@string/product_qty"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/product_qty"
         app:layout_constraintStart_toEndOf="@+id/imageView" />
 
     <Button
         android:id="@+id/reserve_button"
         android:layout_width="150dp"
-        android:layout_height="48dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="110dp"
         android:layout_marginTop="44dp"
-        android:onClick="updateData"
         android:text="保存"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="updateData"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/str_barcode" />
 
@@ -185,6 +182,7 @@
         android:gravity="center|end"
         android:text="バーコードID："
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expiryDate" />
 

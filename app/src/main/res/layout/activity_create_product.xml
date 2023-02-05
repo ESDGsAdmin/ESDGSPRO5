@@ -37,6 +37,7 @@
         android:layout_marginStart="20dp"
         android:labelFor="@id/productName"
         android:text="@string/product_name"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/productName"
         app:layout_constraintStart_toEndOf="@+id/imageView" />
 
@@ -56,6 +57,7 @@
         android:layout_marginStart="20dp"
         android:labelFor="@id/spinner"
         android:text="@string/product_class"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/spinner"
         app:layout_constraintStart_toEndOf="@+id/imageView" />
 
@@ -78,6 +80,7 @@
         android:layout_marginStart="10dp"
         android:labelFor="@id/purchaseDate"
         android:text="@string/purchase_date"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/purchaseDate"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -100,6 +103,7 @@
         android:layout_marginStart="10dp"
         android:labelFor="@id/expiryDate"
         android:text="@string/expiry_date"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/expiryDate"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -154,6 +158,7 @@
         android:layout_marginStart="20dp"
         android:labelFor="@id/purchaseDate"
         android:text="@string/product_qty"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/product_qty"
         app:layout_constraintStart_toEndOf="@+id/imageView" />
 
@@ -177,6 +182,7 @@
         android:gravity="center|end"
         android:text="バーコードID："
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expiryDate" />
 

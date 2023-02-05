@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">在庫一覧</string>
-    <string name="app_name2">商品編集</string>
+    <string name="app_name">食材の履歴</string>
+    <string name="app_name2">食材の消費</string>
+    <string name="app_name3">食材の保存</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
     <string-array name="product_class">
@@ -18,14 +19,13 @@
         <item>その他</item>
     </string-array>
     <string name="barcode_create">バーコード</string>
-    <string name="product_register">商品登録</string>
-    <string name="edit">商品編集</string>
-    <string name="product_name">商品名</string>
-    <string name="product_class">商品分類</string>
+    <!--<string name="product_register">食材の保存</string>
+    <string name="edit">食材の消費</string>-->
+    <string name="product_name">食材名</string>
+    <string name="product_class">食材分類</string>
     <string name="product_qty">数量</string>
     <string name="purchase_date">購入日</string>
     <string name="expiry_date">賞味期限</string>
-    <string name="app_name3">商品登録</string>
 
     <string name="dialog_title">確認</string>
     <string name="dialog_ok">OK</string>
