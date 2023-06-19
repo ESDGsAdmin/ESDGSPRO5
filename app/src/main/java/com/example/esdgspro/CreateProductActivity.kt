@@ -1,16 +1,22 @@
 package com.example.esdgspro
 
+import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import java.io.ByteArrayOutputStream
 import java.time.LocalDateTime
 
@@ -26,6 +32,10 @@ class CreateProductActivity : AppCompatActivity() {
     private lateinit var minusClick: TextView
     private lateinit var barcodeId: TextView
 
+    var selectProImg = SdgsCommonLogic()
+    var curSpnVal = 0
+    val CAMERA_REQUEST_CODE = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_product)
@@ -35,7 +45,7 @@ class CreateProductActivity : AppCompatActivity() {
         //val message: String? = intent.getStringExtra(MainActivity().extraMessage)
         //val id: Int = intent.getIntExtra("ingredientId", 0)
 
-        var selectProImg = SdgsCommonLogic()
+        //var selectProImg = SdgsCommonLogic()
 
         //DB接続用
         val helper = DBHelper(this@CreateProductActivity)
@@ -90,10 +100,10 @@ class CreateProductActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
                 ){
-                    var curSpnVal = (parent as Spinner).selectedItemPosition + 1
+                    curSpnVal = (parent as Spinner).selectedItemPosition + 1
 
                     //selectProImg.curSpn = curSpnVal
-                    image1.setImageResource(selectProImg.selectProductImage(curSpnVal))
+                    //image1.setImageResource(selectProImg.selectProductImage(curSpnVal))
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                         //
@@ -124,6 +134,34 @@ class CreateProductActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }*/
+    companion object {
+        const val CAMERA_PERMISSION_REQUEST_CODE = 2
+    }
+
+
+    override fun onResume(){
+        super.onResume()
+        image1 = findViewById(R.id.imageView)
+        image1.setOnClickListener{
+            // カメラ機能を実装したアプリが存在するかチェック
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(packageManager)?.let {
+                if (checkCameraPermission()) {
+                    takePicture()
+                } else {
+                    grantCameraPermission()
+                }
+            } ?: Toast.makeText(this, "カメラを扱うアプリがありません", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun grantCameraPermission() =
+        ActivityCompat.requestPermissions(this,
+            arrayOf(Manifest.permission.CAMERA),
+            CAMERA_PERMISSION_REQUEST_CODE)
+
+    private fun checkCameraPermission() = PackageManager.PERMISSION_GRANTED ==
+            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
+
 
     private fun showDatePicker(getText: String, getTextValue: TextView) {
         val setYear: Int
@@ -171,6 +209,25 @@ class CreateProductActivity : AppCompatActivity() {
         return sum.toString()
     }
 
+    private fun takePicture(){
+        println("カメラ起動します")
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            addCategory(Intent.CATEGORY_DEFAULT)
+        }
+
+        startActivityForResult(intent, CAMERA_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        println("★写真撮られた！")
+
+        if(requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            image1.setImageBitmap(imageBitmap)
+        }
+    }
+
     /* 保存ボタン押下（データ登録）時 */
     fun createData(view: View) {
         AlertDialog.Builder(this)
@@ -197,6 +254,9 @@ class CreateProductActivity : AppCompatActivity() {
                 }
 
                 /*画像ファイルをBlobに変換*/
+                if (image1.drawable == null){
+                    image1.setImageResource(selectProImg.selectProductImage(curSpnVal))
+                }
                 val bitmapDrawable = image1.drawable as BitmapDrawable
                 val bitmapDrawablex = bitmapDrawable.bitmap
                 val byteArrayOutputStream = ByteArrayOutputStream();

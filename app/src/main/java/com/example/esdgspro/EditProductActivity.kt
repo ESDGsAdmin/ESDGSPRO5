@@ -109,7 +109,7 @@ class EditProductActivity : AppCompatActivity() {
                 var curSpnVal = (parent as Spinner).selectedItemPosition + 1
 
                 //selectProImg.curSpn = curSpnVal
-                image1.setImageResource(selectProImg.selectProductImage(curSpnVal))
+                //image1.setImageResource(selectProImg.selectProductImage(curSpnVal))
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 //
